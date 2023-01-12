@@ -21124,6 +21124,7 @@ MonoBehaviour:
   - {fileID: 5767230182761906686, guid: b08802719f1289a4ea69ef7fe0da3936, type: 3}
   - {fileID: 1741895826281417958, guid: d5f368bb421d13a449f96550a9bb4c83, type: 3}
   - {fileID: 2097122551438195322, guid: c936a185ee9b0be4fab9e825ce4507a8, type: 3}
+  - {fileID: 2935508756368929375, guid: c953608f245c83b45aa87b2c783769e9, type: 3}
   timeText: {fileID: 514114539}
   scoreText: {fileID: 1590470806}
   gameTime: 4
