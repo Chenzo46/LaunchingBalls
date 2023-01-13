@@ -24,7 +24,7 @@ public class NetworkManagerUI : NetworkBehaviour
     public async void start_Client(){
         await rm.JoinRelay(joinInput.text);
         NetworkManager.Singleton.StartClient();
-        multGUI.SetTrigger("toRoom");
+        //multGUI.SetTrigger("toRoom");
     }
 
     public void toHostScreen(){

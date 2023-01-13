@@ -40,10 +40,7 @@ public class RealyManager : MonoBehaviour
         .SetEnvironmentName(environment);
 
         await UnityServices.InitializeAsync(options);
-
-        if(!AuthenticationService.Instance.IsSignedIn){
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        }
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
         
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
 
@@ -64,10 +61,7 @@ public class RealyManager : MonoBehaviour
         .SetEnvironmentName(environment);
 
         await UnityServices.InitializeAsync(options);
-
-        if(!AuthenticationService.Instance.IsSignedIn){
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-        }
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
 
         JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
