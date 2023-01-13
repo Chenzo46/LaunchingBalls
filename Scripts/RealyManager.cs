@@ -10,6 +10,11 @@ using Unity.Services.Authentication;
 using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
 using TMPro;
+using System;
+using System.Linq;
+using Unity.Networking.Transport;
+using Unity.Networking.Transport.Relay;
+using NetworkEvent = Unity.Networking.Transport.NetworkEvent;
 
 public class RealyManager : MonoBehaviour
 {
@@ -29,8 +34,8 @@ public class RealyManager : MonoBehaviour
     private void Awake() {
         instance = this;
     }
-
-    public async Task<RelayHostData> SetupRelay(){
+    
+    public async Task<RelayServerData> SetupRelay(){
         InitializationOptions options = new InitializationOptions()
         .SetEnvironmentName(environment);
 
@@ -39,32 +44,22 @@ public class RealyManager : MonoBehaviour
         if(!AuthenticationService.Instance.IsSignedIn){
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-
         
-        Allocation allocation = await Relay.Instance.CreateAllocationAsync(maxConnections);
+        Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
 
-        RelayHostData relayHostData = new RelayHostData
-        {
-            key = allocation.Key,
-            Port = (ushort)allocation.RelayServer.Port,
-            AllocationID = allocation.AllocationId,
-            AllocationIDBytes = allocation.AllocationIdBytes,
-            IPv4Address = allocation.RelayServer.IpV4,
-            ConnectionData = allocation.ConnectionData
-            
-        };
+        string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-        relayHostData.JoinCode = await Relay.Instance.GetJoinCodeAsync(relayHostData.AllocationID);
+        RelayServerData rData = new RelayServerData(allocation, "dtls");
 
-        Transport.SetRelayServerData(relayHostData.IPv4Address, relayHostData.Port, relayHostData.AllocationIDBytes, relayHostData.key, relayHostData.ConnectionData);
+        Transport.SetRelayServerData(rData);
 
-        Debug.Log($"Join code created: {relayHostData.JoinCode}");
-        joinText.text = relayHostData.JoinCode;
-
-        return relayHostData;
+        Debug.Log($"Join code created: {joinCode}");
+        joinText.text = joinCode;
+        
+        return rData;
     }
 
-    public async Task<RelayJoinData> JoinRelay(string joinCode){
+    public async Task<RelayServerData> JoinRelay(string joinCode){
         InitializationOptions options = new InitializationOptions()
         .SetEnvironmentName(environment);
 
@@ -75,25 +70,14 @@ public class RealyManager : MonoBehaviour
         }
 
 
-        JoinAllocation allocation = await Relay.Instance.JoinAllocationAsync(joinCode);
+        JoinAllocation allocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
 
-        RelayJoinData relayJoinData = new RelayJoinData
-        {
-            key = allocation.Key,
-            Port = (ushort)allocation.RelayServer.Port,
-            AllocationID = allocation.AllocationId,
-            AllocationIDBytes = allocation.AllocationIdBytes,
-            HostConnectionData = allocation.HostConnectionData,
-            ConnectionData = allocation.ConnectionData,
-            IPv4Address = allocation.RelayServer.IpV4,
-            JoinCode = joinCode
-            
-        };
+        RelayServerData rData = new RelayServerData(allocation, "dtls");
 
-        Transport.SetRelayServerData(relayJoinData.IPv4Address, relayJoinData.Port, relayJoinData.AllocationIDBytes, relayJoinData.key, relayJoinData.ConnectionData, relayJoinData.HostConnectionData);
+        Transport.SetRelayServerData(rData);
 
         Debug.Log("Client Joined game");
 
-        return relayJoinData;
+        return rData;
     }
 }

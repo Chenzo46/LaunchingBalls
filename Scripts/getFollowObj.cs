@@ -13,7 +13,6 @@ public class getFollowObj : MonoBehaviour
 
 
     [SerializeField] private float mainOrthoSize = 6.875f;
-    [SerializeField] private float followTransitionTime = 0.5f;
     [SerializeField] private float anchoredCamSize = 10f;
 
     private float plrOrthoSize;
