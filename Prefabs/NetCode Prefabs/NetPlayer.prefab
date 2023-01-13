@@ -135,8 +135,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.19215688, g: 0.6392157, b: 0.63529414, a: 1}
-      key1: {r: 0.19215687, g: 0.6392157, b: 0.63529414, a: 0}
+      key0: {r: 0.5882353, g: 0.7019608, b: 0.99215686, a: 1}
+      key1: {r: 0.5882353, g: 0.7019608, b: 0.99215686, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -254,7 +254,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.16862746, g: 0.6431373, b: 0.6509804, a: 1}
+  m_Color: {r: 0.5882353, g: 0.7019608, b: 0.99215686, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
   plr_Death: {fileID: 3777493058028445342, guid: c9e4d7d45aa906a408f9694c794f88e2, type: 3}
   deathSound: {fileID: 8300000, guid: 4a03b7e75b3b5e146b80e953d6c3b877, type: 3}
   p2Color: {r: 0.8301887, g: 0.17630108, b: 0.07440368, a: 1}
-  otherAlphaColor: {r: 0.16862746, g: 0.6431373, b: 0.6509804, a: 0.5411765}
+  otherAlphaColor: {r: 1, g: 1, b: 1, a: 0.5411765}
   maxThrows: 1
 --- !u!50 &9038086936781609553
 Rigidbody2D:

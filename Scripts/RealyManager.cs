@@ -54,7 +54,7 @@ public class RealyManager : MonoBehaviour
         Transport.SetRelayServerData(rData);
 
         Debug.Log($"Join code created: {joinCode}");
-        joinText.text = joinCode;
+        joinText.text = "Join Code: " + joinCode;
         
         return rData;
     }

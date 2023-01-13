@@ -11,9 +11,7 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private TMP_InputField joinInput;
     [SerializeField] private RealyManager rm;
 
-    private void OnEnable() {
-        //NetworkManager.Singleton.OnClientConnectedCallback += toHostScreen;
-    }
+    [SerializeField] private Animator multGUI;
 
     public void start_Server(){
         NetworkManager.Singleton.StartServer();
@@ -21,15 +19,24 @@ public class NetworkManagerUI : NetworkBehaviour
     public async void start_Host(){
         await rm.SetupRelay();
         NetworkManager.Singleton.StartHost();
-        
-        //hostStarted = true;
+
     }
     public async void start_Client(){
         await rm.JoinRelay(joinInput.text);
         NetworkManager.Singleton.StartClient();
+        multGUI.SetTrigger("toRoom");
     }
 
     public void toHostScreen(){
+        start_Host();
+        multGUI.SetTrigger("toRoom");
+    }
 
+    public void toMultOptions(){
+        multGUI.SetTrigger("toMain");
+    }
+
+    public void startGameFromMenu(){
+        multGUI.SetTrigger("toGame");
     }
 }
