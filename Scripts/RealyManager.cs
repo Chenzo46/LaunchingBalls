@@ -36,10 +36,8 @@ public class RealyManager : MonoBehaviour
     }
     
     public async Task<RelayServerData> SetupRelay(){
-        InitializationOptions options = new InitializationOptions()
-        .SetEnvironmentName(environment);
 
-        await UnityServices.InitializeAsync(options);
+    await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
@@ -63,7 +61,7 @@ public class RealyManager : MonoBehaviour
             yield return null;
         }
         if(serverAlloTask.IsFaulted){
-            Debug.Log("Relay Server not started: Expeption");
+            Debug.Log("Relay Server not started because the task failing");
             yield break;
         }
 
@@ -78,10 +76,8 @@ public class RealyManager : MonoBehaviour
     }
 
     public async Task<RelayServerData> setupJoinRelay(string joinCode){
-        InitializationOptions options = new InitializationOptions()
-        .SetEnvironmentName(environment);
 
-        await UnityServices.InitializeAsync(options);
+        await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
 

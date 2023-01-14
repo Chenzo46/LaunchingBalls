@@ -76,6 +76,7 @@ public class NetworkPlayerController : NetworkBehaviour
 
             foreach(GameObject g in pl_ls){
                 Destroy(g.GetComponent<LineRenderer>());
+                Destroy(g.GetComponentInChildren<LineRenderer>());
                 Color orgColor = g.GetComponent<SpriteRenderer>().color;  
                 g.GetComponent<SpriteRenderer>().color = new Color(p2Color.r, p2Color.g,p2Color.b, orgColor.a/2);
             }
