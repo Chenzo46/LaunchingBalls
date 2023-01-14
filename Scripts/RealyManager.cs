@@ -47,8 +47,8 @@ public class RealyManager : MonoBehaviour
         string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
         RelayServerData rData = new RelayServerData(allocation, "dtls");
-
-        Transport.SetRelayServerData(rData);
+        
+        //Transport.SetRelayServerData(rData);
 
         Debug.Log($"Join code created: {joinCode}");
         joinText.text = "Join Code: " + joinCode;
@@ -56,7 +56,28 @@ public class RealyManager : MonoBehaviour
         return rData;
     }
 
-    public async Task<RelayServerData> JoinRelay(string joinCode){
+    public IEnumerator startRelayHost(){
+        var serverAlloTask = SetupRelay();
+
+        while(!serverAlloTask.IsCompleted){
+            yield return null;
+        }
+        if(serverAlloTask.IsFaulted){
+            Debug.Log("Relay Server not started: Expeption");
+            yield break;
+        }
+
+        var serverAlloData = serverAlloTask.Result;
+
+        Transport.SetRelayServerData(serverAlloData);
+
+        NetworkManager.Singleton.StartHost();
+
+        yield return null;
+
+    }
+
+    public async Task<RelayServerData> setupJoinRelay(string joinCode){
         InitializationOptions options = new InitializationOptions()
         .SetEnvironmentName(environment);
 
@@ -68,10 +89,29 @@ public class RealyManager : MonoBehaviour
 
         RelayServerData rData = new RelayServerData(allocation, "dtls");
 
-        Transport.SetRelayServerData(rData);
-
-        Debug.Log("Client Joined game");
-
         return rData;
+    }
+
+    public IEnumerator JoinRelay(string joinCode){
+
+        var clientAlloTask = setupJoinRelay(joinCode);
+
+        while (!clientAlloTask.IsCompleted)
+        {
+            yield return null;
+        }
+
+        if (clientAlloTask.IsFaulted)
+        {
+            Debug.LogError("Exception thrown when attempting to connect to Relay Server. Exception: " + clientAlloTask.Exception.Message);
+            yield break;
+        }
+
+        var relayServerData = clientAlloTask.Result;
+
+        Transport.SetRelayServerData(relayServerData);
+
+        NetworkManager.Singleton.StartClient();
+        yield return null;
     }
 }
