@@ -16,15 +16,12 @@ public class NetworkManagerUI : NetworkBehaviour
     public void start_Server(){
         NetworkManager.Singleton.StartServer();
     }
-    public async void start_Host(){
-        await rm.SetupRelay();
-        NetworkManager.Singleton.StartHost();
+    public void start_Host(){
+        StartCoroutine(rm.startRelayHost());
 
     }
-    public async void start_Client(){
-        await rm.JoinRelay(joinInput.text);
-        NetworkManager.Singleton.StartClient();
-        //multGUI.SetTrigger("toRoom");
+    public void start_Client(){
+        StartCoroutine(rm.JoinRelay(joinInput.text));
     }
 
     public void toHostScreen(){
