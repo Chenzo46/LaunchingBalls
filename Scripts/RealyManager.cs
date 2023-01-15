@@ -18,7 +18,6 @@ using NetworkEvent = Unity.Networking.Transport.NetworkEvent;
 
 public class RealyManager : MonoBehaviour
 {
-    [SerializeField] private string environment = "production";
 
     [SerializeField] private TMP_Text joinText;
 
@@ -26,18 +25,13 @@ public class RealyManager : MonoBehaviour
 
     public static RealyManager instance;
 
-    public bool isRelayEnabled => Transport != null && 
-        Transport.Protocol == UnityTransport.ProtocolType.RelayUnityTransport;
-
-    public UnityTransport Transport => NetworkManager.Singleton.gameObject.GetComponent<UnityTransport>();
-
     private void Awake() {
         instance = this;
     }
     
     public async Task<RelayServerData> SetupRelay(){
 
-    await UnityServices.InitializeAsync();
+        await UnityServices.InitializeAsync();
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
         
         Allocation allocation = await RelayService.Instance.CreateAllocationAsync(maxConnections);
@@ -57,19 +51,24 @@ public class RealyManager : MonoBehaviour
     public IEnumerator startRelayHost(){
         var serverAlloTask = SetupRelay();
 
+        NetworkManagerUI.instance.loading();
+
         while(!serverAlloTask.IsCompleted){
             yield return null;
         }
         if(serverAlloTask.IsFaulted){
             Debug.Log("Relay Server not started because the task failing");
+            NetworkManagerUI.instance.connectionFailed();
             yield break;
         }
 
         var serverAlloData = serverAlloTask.Result;
 
-        Transport.SetRelayServerData(serverAlloData);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(serverAlloData);
 
         NetworkManager.Singleton.StartHost();
+
+        NetworkManagerUI.instance.toRoom();
 
         yield return null;
 
@@ -92,6 +91,8 @@ public class RealyManager : MonoBehaviour
 
         var clientAlloTask = setupJoinRelay(joinCode);
 
+        NetworkManagerUI.instance.loading();
+
         while (!clientAlloTask.IsCompleted)
         {
             yield return null;
@@ -99,15 +100,18 @@ public class RealyManager : MonoBehaviour
 
         if (clientAlloTask.IsFaulted)
         {
-            Debug.LogError("Exception thrown when attempting to connect to Relay Server. Exception: " + clientAlloTask.Exception.Message);
+            Debug.LogError("Exception thrown when attempting to connect to Relay Server. Exception: " + clientAlloTask.Exception.Message + " Stack Trace: " + clientAlloTask.Exception.StackTrace);
             yield break;
         }
 
         var relayServerData = clientAlloTask.Result;
 
-        Transport.SetRelayServerData(relayServerData);
+        NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
         NetworkManager.Singleton.StartClient();
+        
+        NetworkManagerUI.instance.toRoom();
+
         yield return null;
     }
 }

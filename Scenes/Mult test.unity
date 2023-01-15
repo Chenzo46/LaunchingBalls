@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 102997865}
   - component: {fileID: 102997864}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: p1 name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 1 (name here)
+  m_text: Player 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c5a323dd7da1bba4ca1c685cf3efd074, type: 2}
   m_sharedMaterial: {fileID: 1475447287106742498, guid: c5a323dd7da1bba4ca1c685cf3efd074, type: 2}
@@ -1990,6 +1990,11 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 8455409826463875219, guid: 6b7be5e1895e4d24f9006a1aac2c5341, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -2059,7 +2064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5736b966c85e41f49a780817e5e0f330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  environment: production
   joinText: {fileID: 1476099224}
   maxConnections: 2
 --- !u!1 &848038890
@@ -2245,12 +2249,12 @@ GameObject:
   m_Component:
   - component: {fileID: 960687178}
   m_Layer: 5
-  m_Name: PlayerUIOBJ
+  m_Name: Player2UIOBJ
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &960687178
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3023,7 +3027,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 2986344447
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -3322,7 +3326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1237459300
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3799,9 +3803,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Player 2 (name here)
-
-'
+  m_text: Player 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c5a323dd7da1bba4ca1c685cf3efd074, type: 2}
   m_sharedMaterial: {fileID: 1475447287106742498, guid: c5a323dd7da1bba4ca1c685cf3efd074, type: 2}
@@ -4799,6 +4801,12 @@ MonoBehaviour:
     TriggerNameHash: -906350767
     TransitionIndex: 0
   - Layer: 0
+    OriginatingState: 1086664002
+    DestinationState: 990139629
+    TransitionDuration: 0
+    TriggerNameHash: -1828411875
+    TransitionIndex: 1
+  - Layer: 0
     OriginatingState: 753937700
     DestinationState: -515395109
     TransitionDuration: 0
@@ -4816,6 +4824,30 @@ MonoBehaviour:
     TransitionDuration: 0
     TriggerNameHash: -906350767
     TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: -515395109
+    DestinationState: 990139629
+    TransitionDuration: 0
+    TriggerNameHash: -1828411875
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: 990139629
+    DestinationState: 1086664002
+    TransitionDuration: 0
+    TriggerNameHash: 1398086399
+    TransitionIndex: 0
+  - Layer: 0
+    OriginatingState: 990139629
+    DestinationState: -515395109
+    TransitionDuration: 0
+    TriggerNameHash: 1398086399
+    TransitionIndex: 1
+  - Layer: 0
+    OriginatingState: 990139629
+    DestinationState: 753937700
+    TransitionDuration: 0
+    TriggerNameHash: 448207029
+    TransitionIndex: 2
   m_Animator: {fileID: 1642708883}
 --- !u!1001 &1719882017
 PrefabInstance:
@@ -4824,6 +4856,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 820119041}
     m_Modifications:
+    - target: {fileID: -2552328357252143824, guid: 6b7be5e1895e4d24f9006a1aac2c5341, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 847371688
+      objectReference: {fileID: 0}
     - target: {fileID: 2479485741070004813, guid: 6b7be5e1895e4d24f9006a1aac2c5341, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -4997,9 +5033,10 @@ MonoBehaviour:
   timeTxt: {fileID: 1476099224}
   joinInput: {fileID: 1033664113}
   rm: {fileID: 840051311}
+  joinCodeText: {fileID: 1476099224}
   multGUI: {fileID: 1642708883}
   startGame: {fileID: 452140552}
-  nameInput: {fileID: 1237459301}
+  p2GUI: {fileID: 960687177}
 --- !u!114 &1821965476
 MonoBehaviour:
   m_ObjectHideFlags: 0

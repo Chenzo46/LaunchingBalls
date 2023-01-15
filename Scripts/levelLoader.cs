@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class levelLoader : MonoBehaviour
+public class levelLoader : NetworkBehaviour
 {
     [SerializeField] private bool inc = true;
 
@@ -21,7 +21,15 @@ public class levelLoader : MonoBehaviour
                 Destroy(gameObject);
             }
             else{
-                //other.gameObject.GetComponent<NetworkPlayerController>().spawnNextRoomServerRpc(inc);
+                if(NetworkManager.Singleton.IsHost){
+                    InfiniteGenNet.instance.loadNextLevel();
+                }
+                else{
+                    InfiniteGenNet.instance.loadNextLevelServerRpc();
+                }
+
+
+                GetComponent<NetworkObject>().Despawn(true);
                 Destroy(gameObject);
             }
             

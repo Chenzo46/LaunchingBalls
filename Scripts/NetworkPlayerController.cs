@@ -63,7 +63,6 @@ public class NetworkPlayerController : NetworkBehaviour
     void Start()
     {
         radius = transform.localScale.x;
-
     }
 
     public void updateAlphaValues(){
@@ -86,6 +85,7 @@ public class NetworkPlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+
         GameObject[] plrs = GameObject.FindGameObjectsWithTag("Player");
 
         foreach(GameObject g in plrs){
@@ -104,6 +104,11 @@ public class NetworkPlayerController : NetworkBehaviour
 
             CinecamFollowScript.instance.setFollowTarget(transform);
         }
+
+        if(OwnerClientId == 1){
+            NetworkManagerUI.instance.UpdatePlayerJoinedUIServerRpc();
+            NetworkManagerUI.instance.localUpdatePlayerUI();
+        }
         
     }
     /*
@@ -117,13 +122,12 @@ public class NetworkPlayerController : NetworkBehaviour
     }
     */
 
+
     // Update is called once per frame
     void Update()
     {
-        if(!IsOwner)
-        {
-            return;
-        } 
+        if(!IsOwner)return;
+
         if (!stopPlr)
         {
             mousePos = cineCamParent.ScreenToWorldPoint(Input.mousePosition);

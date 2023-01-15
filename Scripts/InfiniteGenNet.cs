@@ -66,6 +66,27 @@ public class InfiniteGenNet : NetworkBehaviour
         Debug.Log("Game ended");
         //SceneManager.LoadScene(0);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void loadNextLevelServerRpc(){
+        roomIndex += 29;
+
+        if(loadedRooms.Count > rooms.Length-1){
+            GameObject s = loadedRooms[0];
+            GameObject instanceOf = GameObject.Find(s.name + "(Clone)");
+            instanceOf.GetComponent<NetworkObject>().Despawn();
+            loadedRooms.Remove(s);
+            Debug.Log("Room Unloaded: " + s.name);
+        }
+
+        List<GameObject> unloadedRooms = getUnloadedRooms();
+
+        int r = Random.Range(0,unloadedRooms.Count);
+
+        GameObject newR = Instantiate(unloadedRooms[r], Vector2.right*roomIndex, Quaternion.identity);
+        newR.GetComponent<NetworkObject>().Spawn(true);
+        loadedRooms.Add(unloadedRooms[r]);
+    }
     public void loadNextLevel(){
         roomIndex += 29;
 
@@ -82,7 +103,7 @@ public class InfiniteGenNet : NetworkBehaviour
         int r = Random.Range(0,unloadedRooms.Count);
 
         GameObject newR = Instantiate(unloadedRooms[r], Vector2.right*roomIndex, Quaternion.identity);
-        newR.GetComponent<NetworkObject>().Spawn();
+        newR.GetComponent<NetworkObject>().Spawn(true);
         loadedRooms.Add(unloadedRooms[r]);
     }
 
