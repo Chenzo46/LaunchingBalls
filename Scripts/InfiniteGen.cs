@@ -15,6 +15,8 @@ public class InfiniteGen : MonoBehaviour
 
     [SerializeField] private Animator transAnim;
 
+    [SerializeField] private GameObject lvlLoader;
+
     private float gameSeconds = 60;
     
     private List<GameObject> loadedRooms = new List<GameObject>();
@@ -70,6 +72,8 @@ public class InfiniteGen : MonoBehaviour
     }
     public void loadNextLevel(){
         roomIndex += 29;
+
+        Instantiate(lvlLoader, new Vector2(roomIndex+6, -0.5f), Quaternion.identity);
 
         if(loadedRooms.Count > rooms.Length-(int)(rooms.Length/2)){
             GameObject s = loadedRooms[0];

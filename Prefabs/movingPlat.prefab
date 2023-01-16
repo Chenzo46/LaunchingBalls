@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1897062723092995107}
   m_Layer: 0
   m_Name: plat
-  m_TagString: Untagged
+  m_TagString: walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,8 +50,7 @@ MonoBehaviour:
   direction: v
   speed: 2
   startDir: 1
-  amplitude: 1
-  frequency: 1
+  startDelay: 0
 --- !u!212 &8161145031486553339
 SpriteRenderer:
   m_ObjectHideFlags: 0

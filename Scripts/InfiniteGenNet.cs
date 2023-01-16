@@ -93,7 +93,7 @@ public class InfiniteGenNet : NetworkBehaviour
         roomIndex += 29;
 
 
-        GameObject g = Instantiate(levelLd, new Vector2(roomIndex, -0.5f), Quaternion.identity);
+        GameObject g = Instantiate(levelLd, new Vector2(roomIndex + 6, -0.5f), Quaternion.identity);
         g.GetComponent<NetworkObject>().Spawn(true);
 
         if(loadedRooms.Count > rooms.Length-1){
