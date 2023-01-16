@@ -5445,6 +5445,7 @@ MonoBehaviour:
   scoreText: {fileID: 204052243}
   gameTime: 4
   transAnim: {fileID: 1942397137}
+  levelLd: {fileID: 8455409826463875219, guid: 6b7be5e1895e4d24f9006a1aac2c5341, type: 3}
 --- !u!114 &2002106347
 MonoBehaviour:
   m_ObjectHideFlags: 0

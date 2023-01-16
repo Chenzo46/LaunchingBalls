@@ -16,6 +16,8 @@ public class InfiniteGenNet : NetworkBehaviour
 
     [SerializeField] private Animator transAnim;
 
+    [SerializeField] private GameObject levelLd;
+
     private float gameSeconds = 60;
     
     private List<GameObject> loadedRooms = new List<GameObject>();
@@ -89,6 +91,10 @@ public class InfiniteGenNet : NetworkBehaviour
     }
     public void loadNextLevel(){
         roomIndex += 29;
+
+
+        GameObject g = Instantiate(levelLd, new Vector2(roomIndex, -0.5f), Quaternion.identity);
+        g.GetComponent<NetworkObject>().Spawn(true);
 
         if(loadedRooms.Count > rooms.Length-1){
             GameObject s = loadedRooms[0];
