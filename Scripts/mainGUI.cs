@@ -14,6 +14,14 @@ public class mainGUI : MonoBehaviour
     public void ResetLevel()
     {
         StartCoroutine(throwScript.instance.killPlayer());
+
+        
+        if(Camera.main != null){
+            Canvas ca = GetComponent<Canvas>();
+            ca.renderMode = RenderMode.ScreenSpaceCamera;
+            ca.worldCamera = Camera.main;
+        }
+        
     }
 
     public void toggleAnch()

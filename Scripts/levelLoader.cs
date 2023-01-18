@@ -23,17 +23,25 @@ public class levelLoader : NetworkBehaviour
             else{
                 if(NetworkManager.Singleton.IsHost){
                     InfiniteGenNet.instance.loadNextLevel();
+                    GetComponent<NetworkObject>().Despawn(true);
+                    Destroy(gameObject);
                 }
                 else{
                     InfiniteGenNet.instance.loadNextLevelServerRpc();
+                    destroyLoaderServerRpc();
                 }
 
 
-                GetComponent<NetworkObject>().Despawn(true);
-                Destroy(gameObject);
+                
             }
             
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void destroyLoaderServerRpc(){
+        GetComponent<NetworkObject>().Despawn(true);
+        Destroy(gameObject);
     }
 
 }

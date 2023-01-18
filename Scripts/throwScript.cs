@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System;
 
 public class throwScript : MonoBehaviour
 {
@@ -51,9 +52,21 @@ public class throwScript : MonoBehaviour
     private bool respawning = false;
 
     // Start is called before the first frame update
+
+    void OnEnable(){
+        Joystick.OnJoystickLetGo += throwBall;
+        Joystick.OnJoystickPressed += holdBall;
+    }
+
+    void OnDisable(){
+        Joystick.OnJoystickLetGo -= throwBall;
+        Joystick.OnJoystickPressed -= holdBall;
+    }
     private void Awake()
     {
         instance = this;
+
+
 
         try
         {
@@ -94,20 +107,9 @@ public class throwScript : MonoBehaviour
             {
                 holding = true;
             }
-            else if (Input.GetMouseButtonUp(0) && holding)
+            else if (Input.GetMouseButtonUp(0) && holding && !Joystick.instance.holdingStick)
             {
-
-                AudioManager.instance.playSoundNormal(throwSound);
-
-                rb2D.velocity = Vector2.zero;
-
-                hasLerped = true;
-
-                
-                rb2D.AddForce(throwMultiplier * throwDir, ForceMode2D.Impulse);
-                holding = false;
-
-                maxThrows--;
+                throwBall(throwDir, throwMultiplier);
             }
 
             //Debug.Log(rb2D.velocity.magnitude);
@@ -118,9 +120,13 @@ public class throwScript : MonoBehaviour
             }
 
 
-            if (holding)
+            if (holding && !Joystick.instance.holdingStick)
             {
                 lr.SetPosition(1, -throwInd.localPosition / indicatorDrawback);
+            }
+            else if(Joystick.instance.holdingStick)
+            {
+                lr.SetPosition(1, -Joystick.instance.getStickPositon() * 4);
             }
             else
             {
@@ -255,6 +261,27 @@ public class throwScript : MonoBehaviour
             //gui_anim.SetTrigger("in");
         }
         
+    }
+
+    private void throwBall(Vector2 throwDirection, float throwMult){
+        AudioManager.instance.playSoundNormal(throwSound);
+
+        //rb2D.velocity = Vector2.zero;
+
+        hasLerped = true;
+
+        
+        rb2D.AddForce(throwMult * throwDirection, ForceMode2D.Impulse);
+        holding = false;
+
+        Debug.Log("Ball thrown"); 
+
+        maxThrows--;
+    }
+
+    private void holdBall(Vector2 param, float parma2)
+    {
+        holding = true;
     }
 
     public int getThrows()

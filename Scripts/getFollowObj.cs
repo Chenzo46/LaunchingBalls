@@ -28,15 +28,14 @@ public class getFollowObj : MonoBehaviour
          
         cmCam = gameObject.GetComponent<CinemachineVirtualCamera>();
         Player = GameObject.FindGameObjectWithTag("Player");
-        setFollowObj(Player, 6.875f);
+        setFollowObj(Player);
         anchorPoint = GameObject.FindGameObjectWithTag("camAnch");
 
         plrOrthoSize = mainOrthoSize;
     }
 
-    public void setFollowObj(GameObject obj, float orthoSize)
+    public void setFollowObj(GameObject obj)
     {
-        mainOrthoSize = orthoSize;
         //transform.position = obj.transform.position;
         cmCam.Follow = obj.transform;
     }
@@ -45,7 +44,6 @@ public class getFollowObj : MonoBehaviour
     {
         //cmCam.m_Lens.OrthographicSize = Mathf.Lerp(cmCam.m_Lens.OrthographicSize, mainOrthoSize, followTransitionTime);
         if(anchorPoint){
-            cmCam.m_Lens.OrthographicSize = mainOrthoSize;
 
             if (Input.GetKeyDown(KeyCode.Space) )
             {
@@ -62,11 +60,11 @@ public class getFollowObj : MonoBehaviour
 
         if (anchored) 
         {
-            setFollowObj(anchorPoint, anchoredCamSize);
+            setFollowObj(anchorPoint);
         }
         else
         {
-            setFollowObj(Player, plrOrthoSize);
+            setFollowObj(Player);
         }
     }
 
