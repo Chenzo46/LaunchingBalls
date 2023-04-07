@@ -14,11 +14,15 @@ public class CreateSinCurve : MonoBehaviour
 
     [SerializeField] private float Distance = 1;
 
+    [SerializeField] private EdgeCollider2D col;
+
     private SpriteShapeGenerator gen;
 
     [SerializeField] private SpriteShapeController genCon;
 
-    private List<Vector3> linePoints = new List<Vector3>();
+    private List<Vector2> linePoints = new List<Vector2>();
+
+
 
     private void Awake(){
     }
@@ -38,6 +42,7 @@ public class CreateSinCurve : MonoBehaviour
 
     private void createSinCurve(){
         linePoints.Clear();
+        col.points = new Vector2[pointsInCurve];
 
         lr.positionCount = pointsInCurve;
 
@@ -51,34 +56,13 @@ public class CreateSinCurve : MonoBehaviour
 
             float progress = (float)i/(pointsInCurve-1);
             x = Mathf.Lerp(xStart, xFinish,progress);
-            y = Amplitude*Mathf.Sin(x*Frequency);
+            y = Amplitude*Mathf.Cos(x)*Mathf.Sin(Frequency*Time.time*x*Mathf.Cos(x));  //Amplitude*Mathf.Cos(Time.time)*Mathf.Sin(x*Frequency*Mathf.Cos(Time.time)+Time.time);
             lr.SetPosition(i,new Vector2(x,y));
-            linePoints.Add(new Vector3(x,y));
+            linePoints.Add(new Vector2(x,y));
 
         }
 
-
-    }
-
-    [System.Obsolete]
-    private void generateAreUnderCurve(){
-        NativeArray<Vector3> nm = new NativeArray<Vector3>();
-        NativeSlice<Vector3> nm1 = nm;
-        nm.CopyFrom(linePoints.ToArray());
-
-        gen.m_PosArray = nm1;
-
-        
-        SpriteShapeParameters spriteParams = new SpriteShapeParameters();
-
-        Sprite[] s = new Sprite[0];
-
-        AngleRangeInfo[] ang = new AngleRangeInfo[0];
-
-        gen.Prepare(genCon, spriteParams, pointsInCurve*2, new NativeArray<ShapeControlPoint>(),new NativeArray<SpriteShapeMetaData>(),
-        ang, s,  s);
-
-        gen.Execute();
+        col.SetPoints(linePoints);
 
 
     }

@@ -89,7 +89,7 @@ public class throwScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(!IsOwner) return;
+        //if(!IsOwner) return; h
 
         if (!stopPlr)
         {
